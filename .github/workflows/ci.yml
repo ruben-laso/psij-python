@@ -1,0 +1,55 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    strategy:
+      matrix:
+        include:
+          - endpoint_uuid: '2033e5a7-88b0-4fe9-a0b5-b9a9c0ba82ea'
+            user_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/" }'
+            clone_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/"}'
+            
+    runs-on: ubuntu-latest
+    environment: hpcci
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: execute tests
+        id: pytest
+        uses: ValHayot/globus-compute-github-action@v1
+        with:
+          client_id: ${{ secrets.GLOBUS_COMPUTE_CLIENT_ID }}
+          client_secret: ${{ secrets.GLOBUS_COMPUTE_CLIENT_SECRET }}
+          endpoint_uuid: ${{ matrix.endpoint_uuid }}
+          shell_cmd: "cd gc-action-temp/psij-python && pip install -r requirements-dev.txt && PYTHONPATH=$PWD/src pytest --queue-name debug --account cis230030 tests"
+          user_endpoint_config: ${{ matrix.user_endpoint_config }}
+          clone_endpoint_config: ${{ matrix.clone_endpoint_config }}
+      - name: Archive output stdout
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-stdout-${{ matrix.endpoint_uuid }}
+          path: ${{ steps.pytest.outputs.stdout }}
+      - name: Archive output stderr
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-stderr-${{ matrix.endpoint_uuid }}
+          path: ${{ steps.pytest.outputs.stderr }}
