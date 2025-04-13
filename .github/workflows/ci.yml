@@ -17,7 +17,7 @@ jobs:
       matrix:
         include:
           - endpoint_uuid: '2033e5a7-88b0-4fe9-a0b5-b9a9c0ba82ea'
-            user_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/" }'
+            user_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/", "WORKER_INIT": "conda activate psij"}'
             clone_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/"}'
             
     runs-on: ubuntu-latest
