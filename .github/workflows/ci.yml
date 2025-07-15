@@ -16,13 +16,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - endpoint_uuid: '34fc3f0a-7bfe-4a89-b4b1-bcb36f409ee5'
-            user_endpoint_config: '{ "WORKING_DIR": "/home/cc", "WORKER_INIT": "conda activate psij"}' 
-            clone_endpoint_config: '{ "WORKING_DIR": "/home/cc"}'
+          # - endpoint_uuid: '34fc3f0a-7bfe-4a89-b4b1-bcb36f409ee5'
+          #   user_endpoint_config: '{ "WORKING_DIR": "/home/cc", "WORKER_INIT": "conda activate psij"}' 
+          #   clone_endpoint_config: '{ "WORKING_DIR": "/home/cc"}'
 
-          # - endpoint_uuid: '2033e5a7-88b0-4fe9-a0b5-b9a9c0ba82ea'
-          #   user_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/", "WORKER_INIT": "conda activate psij"}'
-          #   clone_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/"}'
+          - endpoint_uuid: '2033e5a7-88b0-4fe9-a0b5-b9a9c0ba82ea'
+            user_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/", "WORKER_INIT": "conda activate psij"}'
+            clone_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/"}'
             
     runs-on: ubuntu-latest
     environment: hpcci
@@ -37,7 +37,7 @@ jobs:
           cache: 'pip'
       - name: execute tests
         id: pytest
-        uses: ValHayot/globus-compute-github-action@v1
+        uses: globus-labs/correct@v1
         with:
           client_id: ${{ secrets.GLOBUS_COMPUTE_CLIENT_ID }}
           client_secret: ${{ secrets.GLOBUS_COMPUTE_CLIENT_SECRET }}
