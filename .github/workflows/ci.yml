@@ -18,12 +18,14 @@ jobs:
       matrix:
         include:
           # chameleon with Docker
-          # - endpoint_uuid: '2123a927-ffe8-4de9-9497-c4da4cf0bc5a'
+          # - resource: chameleon
+          #   endpoint_uuid: '2123a927-ffe8-4de9-9497-c4da4cf0bc5a'
           #   user_endpoint_config: '{ "WORKING_DIR": "/home/cc", "WORKER_INIT": "conda activate psij"}' 
           #   clone_endpoint_config: '{ "WORKING_DIR": "/home/cc"}'
 
           # Anvil
-          - endpoint_uuid: '2033e5a7-88b0-4fe9-a0b5-b9a9c0ba82ea'
+          - resource: anvil
+            endpoint_uuid: '2033e5a7-88b0-4fe9-a0b5-b9a9c0ba82ea'
             user_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/", "WORKER_INIT": "conda activate psij"}'
             clone_endpoint_config: '{ "WORKING_DIR": "/anvil/scratch/x-vhayot/"}'
             
