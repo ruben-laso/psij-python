@@ -18,7 +18,12 @@ jobs:
       matrix:
         include:
           # chameleon with Docker
-          - resource: chameleon
+          # - resource: chameleon
+          #   endpoint_uuid: '2d6ba83f-8609-4605-8471-51e8e7281cb5'
+          #   user_endpoint_config: '{ "WORKING_DIR": "/home/cc", "WORKER_INIT": "conda activate psij"}'
+          #   clone_endpoint_config: '{ "WORKING_DIR": "/home/cc"}'
+
+          - resource: cc
             endpoint_uuid: '2d6ba83f-8609-4605-8471-51e8e7281cb5'
             user_endpoint_config: '{ "WORKING_DIR": "/home/cc", "WORKER_INIT": "conda activate psij"}'
             clone_endpoint_config: '{ "WORKING_DIR": "/home/cc"}'
@@ -47,7 +52,7 @@ jobs:
           client_id: ${{ secrets.GLOBUS_COMPUTE_CLIENT_ID }}
           client_secret: ${{ secrets.GLOBUS_COMPUTE_CLIENT_SECRET }}
           endpoint_uuid: ${{ matrix.endpoint_uuid }}
-          shell_cmd: "cd gc-action-temp/psij-python && python -m pip install --upgrade -r requirements-dev.txt && PYTHONPATH=$PWD/src python -m pytest --queue-name debug --account cis230030 tests"
+          shell_cmd: "cd gc-action-temp/psij-python && python -m pip install -r requirements-dev.txt && PYTHONPATH=$PWD/src python -m pytest --queue-name debug --account cis230030 tests"
           user_endpoint_config: ${{ matrix.user_endpoint_config }}
           clone_endpoint_config: ${{ matrix.clone_endpoint_config }}
       - name: Archive output stdout
